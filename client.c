@@ -6,7 +6,7 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:15:54 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 17:50:15 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:52:11 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@ void	send_char(pid_t pid, char c)
 	i = 0;
 	while (i < 8)
 	{
+		g_ack_received = 0;
 		if (c & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
 		c >>= 1;
+		while (!g_ack_received)
+		{
+			pause();
+		}
 		usleep(100);
 		i++;
 	}
@@ -41,12 +46,7 @@ void	send_string(pid_t pid, char *str)
 {
 	while (*str)
 	{
-		g_ack_received = 0;
 		send_char(pid, *str);
-		while (!g_ack_received)
-		{
-			pause();
-		}
 		usleep(100);
 		str++;
 	}
