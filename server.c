@@ -6,13 +6,11 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:11:39 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 19:50:16 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 20:12:56 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-#define INITIAL_BUFFER_SIZE 1024
 
 void	print_message_and_reset(t_signal_info *signal,
 		t_message_buffer *message)
