@@ -6,7 +6,7 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:11:39 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 17:13:14 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:44:30 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	handle_byte(t_signal_info *signal, t_message_buffer *message)
 	}
 	signal->received_bits = 0;
 	signal->current_char = 0;
+	if (signal->sender_pid != 0)
+		kill(signal->sender_pid, SIGUSR1);
 }
 
 void	init_message_buffer(t_message_buffer *message)
@@ -73,8 +75,6 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 	signal.received_bits++;
 	if (signal.received_bits == 8)
 		handle_byte(&signal, &message);
-	if (signal.sender_pid != 0)
-		kill(signal.sender_pid, SIGUSR1);
 }
 
 int	main(void)

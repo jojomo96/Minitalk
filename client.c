@@ -6,19 +6,17 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:15:54 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 17:24:56 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:50:15 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-volatile sig_atomic_t	g_ack_received = 0;
+static volatile sig_atomic_t	g_ack_received = 0;
 
 void	acknowledgment_handler(int sig)
 {
 	(void)sig;
-	// if (sig == SIGUSR2)
-	// 	write(STDOUT_FILENO, "Server received message\n", 25);
 	g_ack_received = 1;
 }
 
@@ -29,16 +27,11 @@ void	send_char(pid_t pid, char c)
 	i = 0;
 	while (i < 8)
 	{
-		g_ack_received = 0;
 		if (c & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
 		c >>= 1;
-		while (!g_ack_received)
-		{
-			pause();
-		}
 		usleep(100);
 		i++;
 	}
@@ -48,7 +41,13 @@ void	send_string(pid_t pid, char *str)
 {
 	while (*str)
 	{
+		g_ack_received = 0;
 		send_char(pid, *str);
+		while (!g_ack_received)
+		{
+			pause();
+		}
+		usleep(100);
 		str++;
 	}
 	send_char(pid, '\0');

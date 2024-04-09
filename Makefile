@@ -14,6 +14,8 @@ clean:
 
 fclean: clean
 
+bonus: all
+
 re: clean all
 
-.PHONY: all clean server client re
+.PHONY: all clean server client re fclean bonus
