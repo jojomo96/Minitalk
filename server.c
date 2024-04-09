@@ -6,7 +6,7 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:11:39 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 17:51:43 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 19:50:16 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_message_and_reset(t_signal_info *signal,
 {
 	write(STDOUT_FILENO, message->data, message->current_size);
 	message->current_size = 0;
-	memset(message->data, 0, message->total_capacity);
+	ft_memset(message->data, 0, message->total_capacity);
 	kill(signal->sender_pid, SIGUSR2);
 	signal->sender_pid = 0;
 }
@@ -35,8 +35,8 @@ void	handle_byte(t_signal_info *signal, t_message_buffer *message)
 		if (message->current_size >= message->total_capacity - 1)
 		{
 			message->total_capacity *= 2;
-			new_buffer = (char *)realloc(message->data,
-					message->total_capacity);
+			new_buffer = (char *)ft_realloc(message->data,
+					message->current_size, message->total_capacity);
 			if (new_buffer == NULL)
 			{
 				free(message->data);
@@ -55,7 +55,7 @@ void	init_message_buffer(t_message_buffer *message)
 	message->data = (char *)malloc(message->total_capacity * sizeof(char));
 	if (message->data == NULL)
 		exit(EXIT_FAILURE);
-	memset(message->data, 0, message->total_capacity);
+	ft_memset(message->data, 0, message->total_capacity);
 }
 
 void	handle_signal(int sig, siginfo_t *info, void *context)
@@ -82,7 +82,7 @@ int	main(void)
 {
 	struct sigaction	sa;
 
-	printf("Server PID: %d\n", getpid());
+	ft_printf("Server PID: %d\n", getpid());
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = handle_signal;
 	sigemptyset(&sa.sa_mask);

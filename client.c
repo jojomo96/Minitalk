@@ -6,7 +6,7 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:15:54 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 17:52:11 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 19:41:13 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		printf("Usage: %s <PID> <message>\n", argv[0]);
+		ft_printf("Usage: %s <PID> <message>\n", argv[0]);
 		return (1);
 	}
 	sa.sa_flags = 0;
