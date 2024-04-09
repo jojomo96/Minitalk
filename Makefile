@@ -12,6 +12,8 @@ client: client.c
 clean:
 	rm -f server client
 
+fclean: clean
+
 re: clean all
 
 .PHONY: all clean server client re
