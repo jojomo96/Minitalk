@@ -8,23 +8,20 @@ LIBFT_INC=-I$(LIBFT)
 LIBFTPRINTF_INC=-I$(LIBFTPRINTF)
 LFLAGS=-L$(LIBFT) -lft -L$(LIBFTPRINTF) -lftprintf
 
-all: libft libftprintf server client
-
-libft: $(LIBFT_LIB)
+# Target all now depends on server and client binaries explicitly.
+all: $(LIBFT_LIB) $(LIBFTPRINTF_LIB) server client
 
 $(LIBFT_LIB):
 	make -C $(LIBFT)
 
-libftprintf: $(LIBFTPRINTF_LIB)
-
 $(LIBFTPRINTF_LIB):
 	make -C $(LIBFTPRINTF)
 
-server: server.c
-	$(CC) $(CFLAGS) $(LIBFT_INC) $(LIBFTPRINTF_INC) server.c -o server $(LFLAGS)
+server: server.c $(LIBFT_LIB) $(LIBFTPRINTF_LIB)
+	$(CC) $(CFLAGS) $(LIBFT_INC) $(LIBFTPRINTF_INC) server.c -o $@ $(LFLAGS)
 
-client: client.c
-	$(CC) $(CFLAGS) $(LIBFT_INC) $(LIBFTPRINTF_INC) client.c -o client $(LFLAGS)
+client: client.c $(LIBFT_LIB) $(LIBFTPRINTF_LIB)
+	$(CC) $(CFLAGS) $(LIBFT_INC) $(LIBFTPRINTF_INC) client.c -o $@ $(LFLAGS)
 
 clean:
 	rm -f server client
@@ -35,8 +32,9 @@ fclean: clean
 	make -C $(LIBFT) fclean
 	make -C $(LIBFTPRINTF) fclean
 
+# The bonus target could be defined here if it requires additional actions.
 bonus: all
 
 re: fclean all
 
-.PHONY: all clean server client re fclean bonus libft libftprintf
+.PHONY: all clean fclean re bonus libft libftprintf server client

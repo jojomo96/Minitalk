@@ -6,7 +6,7 @@
 /*   By: jmoritz < jmoritz@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:15:54 by jmoritz           #+#    #+#             */
-/*   Updated: 2024/04/09 19:41:13 by jmoritz          ###   ########.fr       */
+/*   Updated: 2024/04/09 22:36:14 by jmoritz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char *argv[])
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	pid = atoi(argv[1]);
+	pid = ft_atoi(argv[1]);
 	send_string(pid, argv[2]);
 	return (0);
 }
